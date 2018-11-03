@@ -3,7 +3,7 @@ import logging
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, TemplateView, CreateView
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib import admin
 from django.conf import settings
 from django.views.generic import View

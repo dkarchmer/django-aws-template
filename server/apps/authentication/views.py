@@ -9,7 +9,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.views.generic import View
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 

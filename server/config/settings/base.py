@@ -11,7 +11,7 @@ import sys
 # Use 12factor inspired environment variables or from a file
 import environ
 
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.contrib import messages
 
 
@@ -93,7 +93,6 @@ COMPANY_NAME = env('COMPANY_NAME')
 
 DJANGO_APPS = (
     'django.contrib.auth',
-    'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sites',

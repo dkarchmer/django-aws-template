@@ -1,4 +1,4 @@
-awscli>=1.10.13
-awsebcli>=3.7.3
+awscli>=1.15.19
+awsebcli>=3.12.4
 docker-compose>=1.6.2
-invoke>=0.12.2
+invoke>=1.0.0

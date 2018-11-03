@@ -1,4 +1,4 @@
-FROM python:3.4
+FROM python:3.6
 
 MAINTAINER David Karchmer <dkarchmer@gmail.com>
 
@@ -18,11 +18,9 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir /var/app
 WORKDIR  /var/app
 COPY requirements /var/app/requirements
-ADD requirements.txt /var/app/requirements.txt
 RUN pip install -U pip
-RUN pip install -r requirements.txt
+RUN pip install -r requirements/docker.txt
 RUN pip install gunicorn
-#RUN pip install Whoosh==2.7.0
 
 # Step 2: Copy Django Code
 # ----------------------------------------
