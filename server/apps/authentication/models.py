@@ -9,19 +9,13 @@ import hashlib
 import uuid
 
 # import code for encoding urls and generating md5 hashes
-try:
-    # Python 3.4
-    import urllib.parse
-except ImportError:
-    # Python 2.7
-    import urllib
+import urllib.parse
 
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import BaseUserManager
 from django.template.defaultfilters import slugify
-from django.utils.encoding import python_2_unicode_compatible
 from django.db.models import Q
 
 from rest_framework.authtoken.models import Token
@@ -119,7 +113,6 @@ class AccountManager(BaseUserManager):
         return account
 
 
-@python_2_unicode_compatible
 class Account(AbstractBaseUser):
 
     TZ_CHOICES = [(tz, tz) for tz in pytz.common_timezones]
@@ -146,6 +139,9 @@ class Account(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
+
+    class Meta:
+        ordering = ['slug']
 
     def save(self, *args, **kwargs):
 

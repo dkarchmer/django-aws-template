@@ -38,7 +38,7 @@ class APITokenViewSet(APIView):
         """
         Update thumbnail and tiny file field
         """
-        if request.user.is_anonymous():
+        if request.user.is_anonymous:
             # User most login before they can get a token
             # This not only ensures the user has registered, and has an account
             # but that the account is active
@@ -145,7 +145,7 @@ class APILoginViewSet(APIView):
             email = serializer.data.get('email')
             password = serializer.data.get('password')
 
-            if not request.user.is_anonymous():
+            if not request.user.is_anonymous:
                 return Response('Already Logged-in', status=status.HTTP_403_FORBIDDEN)
 
             account = authenticate(email=email, password=password)
@@ -209,7 +209,7 @@ class APIUserInfoViewSet(APIView):
         """
         Update thumbnail and tiny file field
         """
-        if request.user.is_anonymous():
+        if request.user.is_anonymous:
             # User most login before they can get a token
             # This not only ensures the user has registered, and has an account
             # but that the account is active

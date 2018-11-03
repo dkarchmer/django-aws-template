@@ -29,7 +29,7 @@ class HomeIndexView(TemplateView):
     def get_template_names(self):
         user = self.request.user
 
-        if user.is_authenticated():
+        if user.is_authenticated:
             template_name = 'main/index.html'
         else:
             template_name = 'main/landing.html'
@@ -77,13 +77,13 @@ class ContactCreateView(CreateView):
     template_name = 'newForm.html'
 
     def get_form_class(self):
-        if self.request.user.is_authenticated():
+        if self.request.user.is_authenticated:
             return ContactPrivateForm
         return ContactPublicForm
 
     def get_context_data(self, **kwargs):
         context = super(ContactCreateView, self).get_context_data(**kwargs)
-        if self.request.user.is_authenticated():
+        if self.request.user.is_authenticated:
             context['referer'] = self.request.META.get('HTTP_REFERER')
         else:
             context['referer'] = '/'

@@ -107,12 +107,22 @@ docker-compose build web
 docker-compose run --rm web python manage.py collectstatic --noinput
 ```
 
-### Running Unit Test with Docker Compose
+### Running Unit Test with docker compose
 
 After the webapp static files have been build, Docker Compose can be used to run the unit test.
 
 ```
 docker-compose -f docker-compose.utest.yml run --rm web
+```
+
+### Running local server with docker compose
+
+To run the local server to test on your local host, use docker compose like:
+
+```
+docker-compose build
+docker-compose up -d
+docker-compose logs web
 ```
 
 ### Python Environment ###

@@ -35,7 +35,7 @@ urlpatterns = [
     url(r'^', include('apps.main.urls')),
     url(r'^account/', include('apps.authentication.urls')),
 
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),
 
     # Rest API
     url(r'^api/v1/', include(v1_api_router.urls)),

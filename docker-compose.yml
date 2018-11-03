@@ -46,4 +46,5 @@ services:
       - RDS_PASSWORD=''
       - RDS_HOSTNAME=db
       - RDS_PORT=5432
+      - DATABASE_URL=postgres://postgres@db/postgres
 
