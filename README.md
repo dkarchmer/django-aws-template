@@ -84,6 +84,12 @@ Once you have docker and docker-compose installed (see instructions on docker we
 This project builds the top level Django template file and all static files using modern techniques to ensure all
 static files are minized and ready for a CDN.
 
+Before you can start, you need to create a .docker.env file on your server/config/settings directory:
+
+```
+$ cp server/config/settings/sample-docker.env server/config/settings/.docker.env
+```
+
 This creates a little extra complexity, but is not a big deal when using Docker. Follow the instructions below
 carefully:
 
@@ -120,14 +126,15 @@ docker-compose -f docker-compose.utest.yml run --rm web
 To run the local server to test on your local host, use docker compose like:
 
 ```
-docker-compose build
-docker-compose up -d
-docker-compose logs web
+docker-compose build    # Build all containers
+docker-compose up -d    # Run containers in background
+docker-compose logs web # Shows logs for web container (django server)
+docker-compose down     # shutdown containers
 ```
 
-### Python Environment ###
+## Python Environment ###
 
-To set up a development environment quickly, first install Python 3. It comes with virtualenv built-in. So create a virtual env by:
+It is not recommended to run on native python (you are on your own if you do), but you can do this with:
 
 ```
 $ python3 -m venv  ~/.virtualenv/myproject
@@ -136,15 +143,13 @@ $ pip install -U pip
 $ pip install -r requirements.txt
 $ pip install -r server/requirements.txt
 $ cp server/config/settings/sample-local.env server/config/settings/.local.env
-$ cp server/config/settings/sample-docker.env server/config/settings/.docker.env
-$ cp server/config/settings/sample-production.env server/config/settings/.production.env
 ```
 
 ### Static Files
 
-We use nodeJS with Gulp and Bower to process static files. The Gulp file also contains the required code to deploy these static files to S3 and/or CloudWatch, which is the best way to deploy static files when using AWS based environments.
+We use nodeJS (v5) with Gulp and Bower to process static files. The Gulp file also contains the required code to deploy these static files to S3 and/or CloudWatch, which is the best way to deploy static files when using AWS based environments.
 
-This is probably the most complicated part of this environment, but probably also the most innocative part. Gulp/Bower was selected (instead of plain Django `collectstatics`) because any proffesional site will end up with a lot of frontend code (using both HTML and JavaScript), and you will end up with a lot of javascript dependencies that require a good managing system. So, just like `pip` is great for Python, you need something like `bower` for javascript dependencies. And you want a modern frontend build flow like Gulp to ensure all your static files are minimized and compied into a couple of CSS and JS files. Gulp does that very well.
+This is probably the most complicated part of this environment, but probably also the most innovative part. Gulp/Bower was selected (instead of plain Django `collectstatics`) because any proffesional site will end up with a lot of frontend code (using both HTML and JavaScript), and you will end up with a lot of javascript dependencies that require a good managing system. So, just like `pip` is great for Python, you need something like `bower` for javascript dependencies. And you want a modern frontend build flow like Gulp to ensure all your static files are minimized and compied into a couple of CSS and JS files. Gulp does that very well.
 
 ```
 $ cd webapp
@@ -202,6 +207,15 @@ Once the models are more stable, and for sure for production, it is recommended 
 RDS database (outside *EB*), and simply tell Django to use that. The `.ebextensions/01_main.config` has
 a bunch of `RDS_` environment variables (commented out) to use for this. Simply enable them, and set the
 proper RDS address.
+
+Before you can start, you need to create a `.production.env` file with all your secrets:
+
+```
+$ cp server/config/settings/sample-production.env server/config/settings/.production.env
+```
+
+Because you are about to deploy, you must update that .production.env with your actual secrets and domain
+specific information.
 
 ### Creating the environment
 
