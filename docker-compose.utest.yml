@@ -9,7 +9,7 @@ services:
       - ./server:/var/app
       - ./staticfiles:/www/static
     ports:
-      - "5000:8080"
+      - "5000:8000"
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.development
       - DJANGO_ENV_FILE=.local.env

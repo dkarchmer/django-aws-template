@@ -33,6 +33,6 @@ ADD runtest.sh /var/app/runtest.sh
 RUN mkdir /var/app/logs
 COPY locale /var/app/locale
 
-EXPOSE 8080
+EXPOSE 8000
 
 CMD ["/var/app/runserver.sh"]

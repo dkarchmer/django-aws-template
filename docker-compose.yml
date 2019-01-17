@@ -34,7 +34,7 @@ services:
       - ./server:/var/app
       - ./staticfiles:/www/static
     ports:
-      - "5000:8080"
+      - "5000:8000"
     links:
       - db:db
     environment:
