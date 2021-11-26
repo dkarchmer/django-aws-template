@@ -1,4 +1,4 @@
-version: '2'
+version: '3.7'
 services:
 
   # Data
@@ -10,9 +10,10 @@ services:
       - /data
 
   db:
-    image: postgres:9.6
-    ports:
-      - "5432:5432"
+    restart: always
+    image: postgres:11.8
+    environment:
+      - POSTGRES_PASSWORD=postgres
     volumes_from:
       - dbdata
 
@@ -23,8 +24,8 @@ services:
       - "80:80"
     volumes_from:
       - web
-    links:
-      - web:web
+    depends_on:
+      - web
 
   web:
     build:
@@ -34,9 +35,9 @@ services:
       - ./server:/var/app
       - ./staticfiles:/www/static
     ports:
-      - "5000:8080"
-    links:
-      - db:db
+      - "8000:8000"
+    depends_on:
+      - db
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.docker
       - DJANGO_ENV_FILE=.docker.env

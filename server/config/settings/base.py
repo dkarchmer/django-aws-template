@@ -105,7 +105,6 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
-    'storages',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -123,11 +122,14 @@ COMMON_APPS = (
 INSTALLED_APPS = DJANGO_APPS + COMMON_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
+    'django_feature_policy.FeaturePolicyMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'apps.utils.timezoneMiddleware.TimezoneMiddleware',
@@ -172,6 +174,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
@@ -210,8 +214,8 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r'^/api.*$'
 CORS_ORIGIN_WHITELIST = (
-    'mydomain.com',
-    'xxxxxxxxxx.cloudfront.net',
+    'https://mydomain.com',
+    'https://xxxxxxxxxx.cloudfront.net',
 )
 
 CSRF_COOKIE_HTTPONLY = False # Most be False for javascript APIs to be able to post/put/delete

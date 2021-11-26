@@ -14,7 +14,7 @@ from rest_framework import status
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
@@ -111,7 +111,7 @@ class AccountViewSet(viewsets.ModelViewSet):
                          'message': 'Account could not be created with received data.'
                         }, status=status.HTTP_400_BAD_REQUEST)
 
-    @detail_route(methods=['post'])
+    @action(methods=['post'], detail=True)
     def set_password(self, request, username=None):
         account = self.get_object()
         serializer = PasswordCustomSerializer(data=request.data)

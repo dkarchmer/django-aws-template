@@ -1,0 +1,16 @@
+Django
+django-allauth
+django-cors-headers
+django-crispy-forms
+django-environ
+django-filter
+django-health-check
+django-redis
+djangorestframework
+djangorestframework-jwt
+drf-yasg
+hiredis
+psycopg2-binary
+pytz==2018.7
+raven
+boto3

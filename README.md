@@ -21,7 +21,7 @@ and djangorestframework for a rest API.
 - Gulp based flow to build CSS/JS files and release directly to s3/cloudfront (based on `yo webapp`)
 - Better Security with 12-Factor recommendations
 - Logging/Debugging Helpers
-- Works on Python 3.6+ with Django 2.1+
+- Works on Python 3.8+ with Django 2.1+
 
 ### Quick start: ###
 
@@ -63,10 +63,10 @@ This project has the following basic features:
 
 You must have the following installed on your computer
 
-* Python 3.6 or greater
+* Python 3.8 or greater
 * Docker and docker-compose
 
-If not using docker, te following dependencies are also needed:
+If not using docker, the following dependencies are also needed:
 
 * nodeJS v5
 * bower
@@ -118,19 +118,22 @@ docker-compose run --rm web python manage.py collectstatic --noinput
 
 After the webapp static files have been build, Docker Compose can be used to run the unit test.
 
-```
-docker-compose -f docker-compose.utest.yml run --rm web
+```bash
+inv test -a build
+inv test -a signoff
+inv test -a custom -p apps/main
 ```
 
 ### Running local server with docker compose
 
 To run the local server to test on your local host, use docker compose like:
 
-```
-docker-compose build    # Build all containers
-docker-compose up -d    # Run containers in background
-docker-compose logs web # Shows logs for web container (django server)
-docker-compose down     # shutdown containers
+```bash
+inv run-local -a up
+inv run-local -a logs-web
+inv run-local -a makemigrations
+inv run-local -a migrate
+inv run-local -a down
 ```
 
 ## Python Environment ###
@@ -170,14 +173,12 @@ cd ../server
 $ python manage.py collecstatic
 ```
 
-### Database ###
+### Run local server (Docker)
 
-To create database (SQLite3 for development), run
-
-```
-$ cd ../server
-$ python manage.py migrate
-$ python manage.py init-basic-data
+```bash
+inv run-local -a build
+inv run-local -a up
+inv run-local -a down
 ```
 
 `init-basic-data` will create a super user with username=admin, email=env(INITIAL_ADMIN_EMAIL) and password=admin.
@@ -186,12 +187,11 @@ It also creates django-allauth SocialApp records for Facebook, Google and Twitte
 
 For the production server, I recommend you do NOT let elastic beanstalk create the database, and instead manually create an RDS instance. This is not done by default in this template, but you can find several comments explaining how to configure a standa-alone RDS instance when ready.
 
-
 ### Testing
 
-```
-$ cd ../server
-$ python manage.py test
+```bash
+inv test -a signoff
+inv test -a custom -p apps/main
 ```
 
 
@@ -240,4 +240,21 @@ and `eb deploy`):
 
 ```
 invoke deploy
+```
+
+# Updating requirements
+
+This projects use pip-tools to manage requirements. Lists of required packages for each environment are located in *.in files, and complete pinned *.txt files are compiled from them with pip-compile command:
+
+```bash
+cd server 
+pip-compile requirements/base.in
+pip-compile requirements/development.in
+```
+
+To update dependency (e.g django) run following:
+
+```bash
+pip-compile --upgrade-package django==3.1 requirements/base.in
+pip-compile --upgrade-package django==3.1 requirements/development.in
 ```

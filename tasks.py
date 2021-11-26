@@ -57,17 +57,82 @@ def ssh(ctx, type='server'):
     os.chdir('server')
     ctx.run('eb ssh')
 
-@task
-def webapp_build(ctx):
-    os.chdir('webapp')
-    ctx.run('gulp templates')
 
 @task
-def initial_build(ctx):
-    os.chdir('webapp')
-    ctx.run('npm install')
-    ctx.run('bower install')
-    ctx.run('gulp templates')
+def build_statics(ctx, build=False):
+    """Deploy static
+    e.g.
+       inv build-statics
+    """
+    cmd = 'sh build-webapp.sh'
+    ctx.run(cmd, pty=True)
+
+@task
+def test(ctx, action='custom', path='./apps/'):
+    """Full unit test and test coverage.
+    Includes all django management funcions to setup databases
+    (See runtest.sh)
+    Args:
+        action (string): One of
+            - signoff: To run full/default runtest.sh
+            - custom: To run a specific set of tests
+            - stop: to stop all containters
+            - down: to bring down (kill) all containers (and dbs)
+        path (strin): If custom, path indicatest the test path to run
+    e.g.
+        inv test -a signoff       # To run full default signoff test
+        inv test -p ./apps/main   # to run Report tests
+        inv test -a stop          # To stop all containers
+        inv test -a down          # To kill all containers
+    """
+    # 2 Scale up or down
+    cmd = 'docker-compose -f docker-compose.utest.yml -p django_template_test'
+    if action == 'signoff':
+        cmd += '  run --rm web'
+    elif action == 'custom':
+        cmd += f'  run --rm web py.test -s {path}'
+    elif action in ['stop', 'down', 'build',]:
+        cmd += f' {action}'
+    elif 'migrate' in action:
+        cmd += ' run --rm web python manage.py migrate'
+    else:
+        print('action can only be signoff/custom/build/stop/down/migrate')
+    ctx.run(cmd, pty=True)
 
 
-
+@task
+def run_local(ctx, action='up'):
+    """To run local server
+    Args:
+        action (string): One of
+            - up: To run docker-compose up
+            - stop: to stop all containters
+            - down: to bring down (kill) all containers (and dbs)
+            - logs-<name>: to show logs where <name> is server, worker1, worker2, etc.
+    e.g.
+        inv run-local -a up             # To run docker-compose up -d
+        inv run-local -a stop           # To run docker-compose stop
+        inv run-local -a down           # To run docker-compose down
+        inv run-local -a logs-server    # To show logs for Server
+        inv run-local -a makemigrations # Run Django makemigrations
+        inv run-local -a collectstatic  # Run Django collectstatic 
+    """
+    # 2 Scale up or down
+    cmd = 'docker-compose -f docker-compose.yml -p django_template'
+    if action == 'up':
+        cmd += '  up -d'
+    elif action in ['stop', 'down', 'build']:
+        cmd += f' {action}'
+    elif 'logs' in action:
+        parts = action.split('-')
+        assert len(parts) == 2
+        cmd += ' logs {}'.format(parts[1])
+    elif 'makemigrations' in action:
+        cmd += ' run --rm web python manage.py makemigrations'
+    elif 'collectstatic' in action:
+        cmd += ' run --rm web python manage.py collectstatic --noinput'
+    elif 'migrate' in action:
+        cmd += ' run --rm web python manage.py migrate'
+    else:
+        print('action can only be up/stop/down')
+    ctx.run(cmd, pty=True)

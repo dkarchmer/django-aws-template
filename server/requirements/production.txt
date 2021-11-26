@@ -1,4 +1,4 @@
 -r base.txt
 
 # Extra stuff required for production like Prod Database interfacing packages
-psycopg2==2.6
+psycopg2-binary==2.8.5

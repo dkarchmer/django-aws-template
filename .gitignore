@@ -15,6 +15,7 @@ htmlcov/
 .production.env
 .docker.env
 .local.env
+.test.env
 *.log
 staticfiles/*
 !staticfiles/README.md

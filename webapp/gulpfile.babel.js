@@ -1,10 +1,10 @@
 // generated on 2016-03-23 using generator-webapp 2.0.0
 import gulp from 'gulp';
-import gulpLoadPlugins from 'gulp-load-plugins';
 import browserSync from 'browser-sync';
 import del from 'del';
-import {stream as wiredep} from 'wiredep';
+import {stream as wiredep} from 'npm-wiredep';
 import replace from 'gulp-replace';
+var gulpLoadPlugins = require('gulp-load-plugins');
 
 
 const $ = gulpLoadPlugins();
@@ -59,12 +59,23 @@ function lint(files, options) {
 }
 
 const testLintOptions = {
-  env: {
-    mocha: true
-  }
+    env: {
+        mocha: true
+    }
 };
 
-gulp.task('lint', lint(config.jsFiles));
+const codeLintOptions = {
+    rules: {
+        "strict": "warning",
+        "quotes": "warning"
+    },
+    globals: {
+        'jQuery':false,
+        '$':true
+    }
+};
+
+gulp.task('lint', lint(config.jsFiles, codeLintOptions));
 gulp.task('lint:test', lint(config.jsTestFiles, testLintOptions));
 
 gulp.task('html', ['styles', 'scripts'], () => {
@@ -75,7 +86,7 @@ gulp.task('html', ['styles', 'scripts'], () => {
     .pipe($.if('*.js', $.rev()))
     .pipe($.if('*.css', $.rev()))
     .pipe($.revReplace())
-    .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
+    .pipe($.if('*.html', $.htmlmin({collapseWhitespace: false})))
     .pipe(gulp.dest(config.dist))
     .pipe($.rev.manifest())
     .pipe(gulp.dest(config.dist));
@@ -95,7 +106,7 @@ gulp.task('images', () => {
 
 
 gulp.task('fonts', () => {
-  return gulp.src(require('main-bower-files')('**/*.{eot,svg,ttf,woff,woff2}', function (err) {})
+  return gulp.src(require('npmfiles')('**/*.{eot,svg,ttf,woff,woff2}', function (err) {})
     .concat(config.fontFiles))
     .pipe(gulp.dest('.tmp/app/fonts'))
     .pipe(gulp.dest(config.dist + '/app/fonts'));
@@ -118,7 +129,7 @@ gulp.task('serve', ['styles', 'scripts', 'fonts'], () => {
     server: {
       baseDir: ['.tmp', 'src'],
       routes: {
-        '/bower_components': 'bower_components'
+        '/node_modules': 'node_modules'
       }
     }
   });
@@ -132,7 +143,7 @@ gulp.task('serve', ['styles', 'scripts', 'fonts'], () => {
   gulp.watch(config.scssFiles, ['styles']);
   gulp.watch(config.jsFiles, ['scripts']);
   gulp.watch(config.fontFiles, ['fonts']);
-  gulp.watch('bower.json', ['wiredep', 'fonts']);
+  gulp.watch('package.json', ['wiredep', 'fonts']);
 });
 
 gulp.task('serve:dist', () => {
@@ -154,7 +165,7 @@ gulp.task('serve:test', ['scripts'], () => {
       baseDir: 'test',
       routes: {
         '/scripts': '.tmp/app/scripts',
-        '/bower_components': 'bower_components'
+        '/node_modules': 'node_modules'
       }
     }
   });
@@ -164,7 +175,7 @@ gulp.task('serve:test', ['scripts'], () => {
   gulp.watch(config.jsTestFiles, ['lint:test']);
 });
 
-// inject bower components
+// inject NPM components
 gulp.task('wiredep', () => {
   gulp.src(config.scssFiles)
     .pipe(wiredep({
