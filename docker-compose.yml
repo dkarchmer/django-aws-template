@@ -22,8 +22,8 @@ services:
     build: ./nginx/
     ports:
       - "80:80"
-    volumes_from:
-      - web
+    volumes:
+      - ./staticfiles:/www/static
     depends_on:
       - web
 
@@ -36,6 +36,7 @@ services:
       - ./staticfiles:/www/static
     ports:
       - "8000:8000"
+    command: /var/app/runserver.sh
     depends_on:
       - db
     environment:
@@ -47,5 +48,5 @@ services:
       - RDS_PASSWORD=''
       - RDS_HOSTNAME=db
       - RDS_PORT=5432
-      - DATABASE_URL=postgres://postgres@db/postgres
+      - DATABASE_URL=postgres://postgres:postgres@db/postgres
 
