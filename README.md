@@ -203,6 +203,7 @@ After your have created the environment, you can deploy code changes with the fo
 and `eb deploy`):
 
 ```
+inv run-local -a collectstatics
 inv build-statics deploy-statics
 inv deploy
 ```
