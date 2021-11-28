@@ -9,10 +9,20 @@ services:
       - ./server:/var/app
       - ./staticfiles:/www/static
     ports:
-      - "5000:8080"
+      - "8080:8080"
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.development
-      - DJANGO_ENV_FILE=.local.env
+      - DJANGO_ENV_FILE=.test.env
       - DJANGO_SERVER_MODE=Test
       - DJANGO_SECRET_KEY=test-dummy-key1
+      - DATABASE_URL=sqlite:///db.sqlite3
+      - SECRET_KEY=nosecret
+      - PRODUCTION=False
+      - DEBUG=True
+      - DOMAIN_NAME=127.0.0.1:8000
+      - DOMAIN_BASE_URL=http://127.0.0.1:8000
+      - COMPANY_NAME=Test Corp
+      - INITIAL_ADMIN_EMAIL=admin@test.com
+      - AWS_ACCESS_KEY_ID=need-value
+      - AWS_SECRET_ACCESS_KEY=need-value
     command: sh runtest.sh

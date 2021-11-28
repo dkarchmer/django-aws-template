@@ -1,6 +1,4 @@
-FROM python:3.6
-
-MAINTAINER David Karchmer <dkarchmer@gmail.com>
+FROM python:3.8
 
 ENV C_FORCE_ROOT 1
 
@@ -32,7 +30,5 @@ ADD runserver.sh /var/app/runserver.sh
 ADD runtest.sh /var/app/runtest.sh
 RUN mkdir /var/app/logs
 COPY locale /var/app/locale
-
-EXPOSE 8080
 
 CMD ["/var/app/runserver.sh"]

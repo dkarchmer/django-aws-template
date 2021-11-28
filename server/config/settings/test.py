@@ -35,7 +35,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #EMAIL_BACKEND = 'django_ses.SESBackend'
 print('EMAIL_BACKEND = {0}'.format(EMAIL_BACKEND))
 
-CORS_ORIGIN_WHITELIST += ('localhost:3000',)
+CORS_ORIGIN_WHITELIST += ('http://localhost:8000',)
 
 # Kinesis Firehose:
 # -----------------

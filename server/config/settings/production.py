@@ -49,7 +49,7 @@ AWS_STORAGE_BUCKET_NAME = env.str('AWS_STORAGE_BUCKET_NAME')
 AWS_MEDIA_BUCKET_NAME = env.str('AWS_MEDIA_BUCKET_NAME')
 
 # Define STATIC_ROOT for the collectstatic command
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+#STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 # Setup CloudFront
 AWS_S3_URL_PROTOCOL = 'https'
 # Enable one AWS_S3_CUSTOM_DOMAIN to use cloudfront

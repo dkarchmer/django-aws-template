@@ -1,4 +1,4 @@
-{% templatetag openblock %} load staticfiles {% templatetag closeblock %}
+{% templatetag openblock %} load static {% templatetag closeblock %}
 {% templatetag openblock %} comment {% templatetag closeblock %}
     =======================================================
     =======================================================
@@ -21,8 +21,8 @@
     <!-- Place favicon.ico in the root directory -->
 
     <!-- build:css app/styles/vendor.css -->
-    <!-- bower:css -->
-    <!-- endbower -->
+    <!-- npm:css -->
+    <!-- endnpm -->
     <!-- endbuild -->
 
     <!-- build:css app/styles/main.css -->
@@ -33,7 +33,7 @@
     {% templatetag openblock %} endblock {% templatetag closeblock %}
     
     <!-- build:js app/scripts/vendor/modernizr.js -->
-    <script src="/bower_components/modernizr/modernizr.js"></script>
+    <script src="/node_modules/modernizr/modernizr.js"></script>
     <!-- endbuild -->
     
   </head>
@@ -69,37 +69,26 @@
       </div>
     </div>
     {% templatetag openblock %} endblock {% templatetag closeblock %}
-   
-    
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <script>
-      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-      e.src='https://www.google-analytics.com/analytics.js';
-      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-      ga('create','UA-XXXXX-X');ga('send','pageview');
-    </script>
 
     <!-- build:js app/scripts/vendor.js -->
-    <!-- bower:js -->
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <!-- endbower -->
+    <!-- npm:js -->
+    <script src="/node_modules/jquery/dist/jquery.js"></script>
+    <!-- endnpm -->
     <!-- endbuild -->
     
     <!-- build:js app/scripts/plugins.js -->
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/carousel.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
+    <script src="/node_modules/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>
+    <script src="/node_modules/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
+    <script src="/node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
+    <script src="/node_modules/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
+    <script src="/node_modules/bootstrap-sass/assets/javascripts/bootstrap/modal.js"></script>
+    <script src="/node_modules/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
+    <script src="/node_modules/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
+    <script src="/node_modules/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script>
+    <script src="/node_modules/bootstrap-sass/assets/javascripts/bootstrap/carousel.js"></script>
+    <script src="/node_modules/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js"></script>
+    <script src="/node_modules/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
+    <script src="/node_modules/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
     <!-- endbuild -->
     
     <!-- build:js app/scripts/main.js -->
