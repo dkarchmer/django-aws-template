@@ -9,5 +9,3 @@ docker run --rm -v ${PWD}/server:/var/app/server -t webapp/builder mkdir /var/ap
 
 docker run --rm -v ${PWD}/webapp:/var/app/webapp -v ${PWD}/server:/var/app/server -v ${PWD}/staticfiles:/var/app/staticfiles -t webapp/builder npm install
 docker run --rm -v ${PWD}/webapp:/var/app/webapp -v ${PWD}/server:/var/app/server -v ${PWD}/staticfiles:/var/app/staticfiles -t webapp/builder gulp
-
-docker run --rm -v ${PWD}/server:/var/app/server -v ${PWD}/staticfiles:/var/app/staticfiles -t webapp/builder mv /var/app/staticfiles/dist/webapp/index.html /var/app/server/templates/dist/webapp/.
