@@ -17,14 +17,12 @@ phases:
       - apt-get update -y
       - apt-get install -y maven curl wget
       - apt-get purge nodejs npm
-      - curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+      - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
       - apt-get install -y nodejs
       - node --version
   pre_build:
     commands:
       - pip install -r server/requirements/development.txt
-      - npm install -g gulp bower
-      - cd webapp && bower install --allow-root && cd ..
       - cd webapp && npm install & cd ..
       - cd webapp && gulp && cd ..
       - cd server && python manage.py collectstatic --noinput && cd ..
