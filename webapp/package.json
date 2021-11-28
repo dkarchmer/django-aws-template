@@ -1,7 +1,7 @@
 {
   "private": true,
   "engines": {
-    "node": ">=6.9"
+    "node": ">=10"
   },
   "devDependencies": {
     "babel-core": "6.26.0",
