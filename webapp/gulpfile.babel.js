@@ -2,10 +2,9 @@
 import gulp from 'gulp';
 import browserSync from 'browser-sync';
 import del from 'del';
-import {stream as wiredep} from 'npm-wiredep';
+import {stream as wiredep} from 'wiredep';
 import replace from 'gulp-replace';
 var gulpLoadPlugins = require('gulp-load-plugins');
-
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;

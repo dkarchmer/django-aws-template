@@ -1,18 +1,21 @@
 import os
 from invoke import run, task
 
-# EDIT with your own settings
-AWS_PROFILE = 'myprofile'
-AWS_REGION  = 'myawsregion'
+PROJECT_NAME = 'aws_template'
 
 # EDIT with your own settings
-DEFAULT_SERVER_APP_NAME = 'mydomain'
-DEFAULT_SERVER_ENV_NAME = 'mydomain-1'
+AWS_PROFILE = 'myprofile'
+AWS_REGION  = 'us-east-1'
+
+# EDIT with your own settings
+DEFAULT_SERVER_APP_NAME = f'{PROJECT_NAME.lower()}'
+DEFAULT_SERVER_ENV_NAME = f'{PROJECT_NAME.lower()}-prod'
 
 PROFILE_OPT = '--profile {profile}'.format(profile=AWS_PROFILE)
 REGION_OPT = '--region {region}'.format(region=AWS_REGION)
 
-SERVER_AMI = '64bit Amazon Linux 2016.03 v2.1.0 running Python 3.4'
+SERVER_AMI = '64bit Amazon Linux 2 v3.1.1 running Python 3.7'
+# SERVER_AMI = '64bit Amazon Linux 2018.03 v2.10.6 running Python 3.6'
 
 SERVER_INSTANCE_TYPE = 't2.micro'
 # Use Elastic Beanstalk managed RDS database early during development
@@ -21,6 +24,7 @@ SERVER_INSTANCE_TYPE = 't2.micro'
 # Note that you will need to set the env variables on .ebextensions/01_main.config
 DB_CMD = '-db -db.i db.t2.micro -db.engine postgres -db.version 9.5 -db.user ebroot -db.pass pass.DB'
 
+CDN_STATICS_DISTRIBUTION_ID = 'mycloudfrontdistributionid'
 
 @task
 def create(ctx, env=DEFAULT_SERVER_ENV_NAME, app=DEFAULT_SERVER_APP_NAME):
@@ -67,6 +71,22 @@ def build_statics(ctx, build=False):
     cmd = 'sh build-webapp.sh'
     ctx.run(cmd, pty=True)
 
+
+@task
+def deploy_statics(ctx, build=False):
+    """Deploy static
+    e.g.
+       inv deploy-statics
+    """
+    cmds = [
+        f'aws s3 sync --profile {AWS_PROFILE} ./staticfiles/ s3://{PROJECT_NAME}-statics/static',
+        f'aws cloudfront --profile {AWS_PROFILE} create-invalidation --distribution-id {CDN_STATICS_DISTRIBUTION_ID} --paths /',
+    ]
+
+    for cmd in cmds:
+        ctx.run(cmd, pty=True)
+
+
 @task
 def test(ctx, action='custom', path='./apps/'):
     """Full unit test and test coverage.
@@ -86,7 +106,7 @@ def test(ctx, action='custom', path='./apps/'):
         inv test -a down          # To kill all containers
     """
     # 2 Scale up or down
-    cmd = 'docker-compose -f docker-compose.utest.yml -p django_template_test'
+    cmd = f'docker-compose -f docker-compose.utest.yml -p {PROJECT_NAME.lower()}_test'
     if action == 'signoff':
         cmd += '  run --rm web'
     elif action == 'custom':
@@ -118,7 +138,7 @@ def run_local(ctx, action='up'):
         inv run-local -a collectstatic  # Run Django collectstatic 
     """
     # 2 Scale up or down
-    cmd = 'docker-compose -f docker-compose.yml -p django_template'
+    cmd = f'docker-compose -f docker-compose.yml -p {PROJECT_NAME.lower()}'
     if action == 'up':
         cmd += '  up -d'
     elif action in ['stop', 'down', 'build']:

@@ -4,8 +4,6 @@
 
 var gulp = require('gulp');
 var chug = require( 'gulp-chug' );
-var awspublish = require('gulp-awspublish');
-var cloudfront = require("gulp-cloudfront");
 var del = require('del');
 var rename = require('gulp-rename');
 
@@ -17,20 +15,6 @@ gulp.paths = {
     dist: './staticfiles/dist',
     templates: 'server/templates/dist'
 };
-
-// EDIT with your own settings
-var aws = {
-    params: {
-        Bucket: "mystaticbucket",
-        Region: "myawsregion"
-    },
-    "distributionId": "mycloudfrontdistributionid"
-};
-
-var publisher = awspublish.create(aws);
-// One week = 604,800
-var headers = {'Cache-Control': 'max-age=604800, no-transform, public'};
-var index_header = {'Cache-Control': 'public, must-revalidate, proxy-revalidate, max-age=0'};
 
 gulp.task('clean', function(cb) {
     return del([gulp.paths.dist + '/*'], cb)
@@ -48,11 +32,6 @@ gulp.task('deploy', ['base'], function () {
         .pipe(rename(function (path) {
             path.dirname = 'static/' + path.dirname;
         }))
-        .pipe(awspublish.gzip())
-        .pipe(publisher.publish(headers))
-        .pipe(publisher.cache())
-        .pipe(awspublish.reporter())
-        .pipe(cloudfront(aws));
 });
 
 gulp.task('default', ['base']);
