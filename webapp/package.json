@@ -7,7 +7,6 @@
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.26.0",
-    "browser-sync": "2.2.1",
     "chai": "^3.5.0",
     "del": "2.2.0",
     "graceful-fs": "4.1.11",
@@ -16,10 +15,8 @@
     "gulp-babel": "^6.1.2",
     "gulp-cache": "0.4.2",
     "gulp-cssnano": "2.1.2",
-    "gulp-eslint": "0.13.2",
     "gulp-htmlmin": "3.0.0",
     "gulp-if": "2.0.2",
-    "gulp-imagemin": "2.2.1",
     "gulp-load-plugins": "0.10.0",
     "gulp-plumber": "1.0.1",
     "gulp-replace": "0.5.4",
@@ -33,19 +30,6 @@
     "mocha": "^2.4.5",
     "npmfiles": "^0.1.3",
     "wiredep": "2.2.2"
-  },
-  "eslintConfig": {
-    "env": {
-      "es6": true,
-      "node": true,
-      "browser": true
-    },
-    "rules": {
-      "quotes": [
-        2,
-        "single"
-      ]
-    }
   },
   "dependencies": {
     "animate.css": "^3.5.2",
