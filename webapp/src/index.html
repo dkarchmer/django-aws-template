@@ -1,4 +1,4 @@
-{% templatetag openblock %} load staticfiles {% templatetag closeblock %}
+{% templatetag openblock %} load static {% templatetag closeblock %}
 {% templatetag openblock %} comment {% templatetag closeblock %}
     =======================================================
     =======================================================
@@ -33,7 +33,7 @@
     {% templatetag openblock %} endblock {% templatetag closeblock %}
     
     <!-- build:js app/scripts/vendor/modernizr.js -->
-    <script src="/bower_components/modernizr/modernizr.js"></script>
+    <script src="/node_modules/modernizr/modernizr.js"></script>
     <!-- endbuild -->
     
   </head>
