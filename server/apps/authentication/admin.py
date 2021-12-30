@@ -1,7 +1,8 @@
 from django.contrib import admin
+
+from .forms import AdminUserChangeForm, AdminUserCreationForm
 from .models import *
 
-from .forms import AdminUserCreationForm, AdminUserChangeForm
 
 class AccountAdmin(admin.ModelAdmin):
 

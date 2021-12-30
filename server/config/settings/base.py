@@ -8,12 +8,11 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 import os
 import sys
 
+from django.contrib import messages
+from django.urls import reverse_lazy
+
 # Use 12factor inspired environment variables or from a file
 import environ
-
-from django.urls import reverse_lazy
-from django.contrib import messages
-
 
 # Build paths inside the project like this: join(BASE_DIR, "directory")
 BASE_PATH = environ.Path(__file__) - 3

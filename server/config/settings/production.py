@@ -1,8 +1,9 @@
 # In production set the environment variable like this:
 #    DJANGO_SETTINGS_MODULE=config.settings.production
-import socket
-from .base import *             # NOQA
 import logging.config
+import socket
+
+from .base import *  # NOQA
 
 # For security and performance reasons, DEBUG is turned off
 DEBUG = False

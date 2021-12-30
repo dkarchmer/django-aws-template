@@ -1,17 +1,15 @@
 import pytz
-
 from captcha.fields import ReCaptchaField
 
 from django import forms as forms
-from django.forms import ModelForm
 from django.conf import settings
-from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.core.exceptions import ValidationError
+from django.forms import ModelForm
 
+from allauth.account.forms import LoginForm, SignupForm
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Field
-
-from allauth.account.forms import SignupForm, LoginForm
+from crispy_forms.layout import Field, Layout, Submit
 
 from .models import Account
 

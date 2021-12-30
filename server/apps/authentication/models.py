@@ -2,24 +2,23 @@
 Custom User Model
 """
 
-import pytz
-import os
-import logging
 import hashlib
-import uuid
-
+import logging
+import os
 # import code for encoding urls and generating md5 hashes
 import urllib.parse
+import uuid
 
-from django.contrib.auth.models import AbstractBaseUser
-from django.db import models
+import pytz
+
 from django.conf import settings
-from django.contrib.auth.models import BaseUserManager
-from django.template.defaultfilters import slugify
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.db import models
 from django.db.models import Q
+from django.template.defaultfilters import slugify
 
-from rest_framework.authtoken.models import Token
 from allauth.account.signals import user_signed_up
+from rest_framework.authtoken.models import Token
 
 from .tasks import send_new_user_notification
 

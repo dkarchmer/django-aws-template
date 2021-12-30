@@ -1,21 +1,27 @@
 version: '3.7'
-services:
 
-  # Data
-  dbdata:
-    image: busybox
-    command: "true"
-    volumes:
-      - /var/lib/postgresql/data
-      - /data
+x-server-env: &server-env
+  DJANGO_SETTINGS_MODULE: config.settings.docker
+  DJANGO_ENV_FILE: .docker.env
+  DJANGO_SECRET_KEY: stage-dummy-key1
+  SECRET_KEY: stage-dummy-key1
+  DATABASE_URL: postgres://postgres:postgres@db/postgres
+  RDS_DB_NAME: ${RDS_DB_NAME:-postgres}
+  RDS_USERNAME: ${RDS_USERNAME:-postgres}
+  RDS_PASSWORD: ${RDS_PASSWORD:-pass.123}
+  RDS_HOSTNAME: ${RDS_HOSTNAME:-db}
+  RDS_PORT: 5432
+
+services:
 
   db:
     restart: always
     image: postgres:11.8
     environment:
       - POSTGRES_PASSWORD=postgres
-    volumes_from:
-      - dbdata
+    volumes:
+      - /var/lib/postgresql/data
+      - /data
 
   nginx:
     restart: always
@@ -40,13 +46,18 @@ services:
     depends_on:
       - db
     environment:
-      - DJANGO_SETTINGS_MODULE=config.settings.docker
-      - DJANGO_ENV_FILE=.docker.env
-      - DJANGO_SECRET_KEY=stage-dummy-key1
-      - RDS_DB_NAME=postgres
-      - RDS_USERNAME=postgres
-      - RDS_PASSWORD=''
-      - RDS_HOSTNAME=db
-      - RDS_PORT=5432
-      - DATABASE_URL=postgres://postgres:postgres@db/postgres
+      <<: *server-env
 
+  init:
+    build:
+      context: ./server/
+    volumes:
+      - ./logs:/var/app/logs
+      - ./server:/var/app
+      - ./staticfiles:/www/static
+    command: ["sh", "-c", "/var/app/server-init.sh"]
+    restart: "no"
+    depends_on:
+      - db
+    environment:
+      <<: *server-env

@@ -1,11 +1,11 @@
-from django.conf.urls import *
+from django.urls import include, path
 
-from .views import *
+from .views import AccountDetailView, AccountRedirectView, AccountUpdateView
 
 urlpatterns = [
 
-     url(r'^', include('allauth.urls')),
-     url(r'^$', AccountRedirectView.as_view(), name='account_redirect'),
-     url(r'^(?P<slug>[^/]+)/edit/$', AccountUpdateView.as_view(), name='account_edit'),
-     url(r'^(?P<slug>[^/]+)/$', AccountDetailView.as_view(), name='account_detail'),
+     path('', include('allauth.urls')),
+     path('', AccountRedirectView.as_view(), name='account_redirect'),
+     path('<slug:slug>/edit/', AccountUpdateView.as_view(), name='account_edit'),
+     path('<slug:slug>/', AccountDetailView.as_view(), name='account_detail'),
 ]

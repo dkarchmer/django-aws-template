@@ -1,5 +1,5 @@
-import time
 import logging
+import time
 
 from django.conf import settings
 from django.template.defaultfilters import slugify

@@ -1,19 +1,20 @@
 import json
+
 import pytz
 
-from django.test import TestCase, Client
 from django.conf import settings
-from django.utils import timezone
 from django.contrib.auth import get_user_model
+from django.test import Client, TestCase
+from django.utils import timezone
 
-from rest_framework.test import APIRequestFactory, APIClient
+from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.reverse import reverse
-from rest_framework import status
+from rest_framework.test import APIClient, APIRequestFactory
 
 from .models import *
-from .tasks import *
 from .serializers import AccountSerializer
+from .tasks import *
 
 user_model = get_user_model()
 
@@ -123,7 +124,7 @@ class MainTestCase(TestCase):
     def testTimeZone(self):
         #tzname = request.session.get('django_timezone')
         response = self.client.get('/')
-        self.failUnlessEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # If not loggedin, no timezone in session
         session = self.client.session
@@ -132,7 +133,7 @@ class MainTestCase(TestCase):
         ok = self.client.login(email='user1@foo.com', password='pass')
         self.assertTrue(ok)
         response = self.client.get('/')
-        self.failUnlessEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Default Time zone
         session = self.client.session
@@ -150,7 +151,7 @@ class MainTestCase(TestCase):
         ok = self.client.login(email='user4@foo.com', password='pass')
         self.assertTrue(ok)
         response = self.client.get('/')
-        self.failUnlessEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Default Time zone
         session = self.client.session
@@ -165,6 +166,8 @@ class MainTestCase(TestCase):
         send_new_user_notification(self.u1.id, self.u1.username, self.u1.email)
 
 from rest_framework.test import APITestCase
+
+
 class AccountAPITests(APITestCase):
 
     def setUp(self):

@@ -1,4 +1,4 @@
-awscli>=1.15.19
 awsebcli>=3.12.4
 invoke>=1.6.0
+isort
 pip-tools

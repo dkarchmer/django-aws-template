@@ -1,17 +1,16 @@
-from django.conf.urls import *
+from django.urls import include, path
 from django.views.decorators.cache import cache_page
 
 from .views import *
 
-
 urlpatterns = [
-     url(r'^$', HomeIndexView.as_view(), name='home'),
-     url(r'^about/$', AboutView.as_view(), name='about'),
-     url(r'^message/send/$', ContactCreateView.as_view(), name='send-message'),
+     path('', HomeIndexView.as_view(), name='home'),
+     path('about/', AboutView.as_view(), name='about'),
+     path('message/send/', ContactCreateView.as_view(), name='send-message'),
      # ---------------------------------
-     url(r'^jsi18n', i18n_javascript),
-     url(r'^admin/jsi18n', i18n_javascript),
-     url(r'^i18n/', include('django.conf.urls.i18n')),
-     url(r'^robots.txt$', RobotView.as_view()),
-     url(r'^crossdomain.xml$', CrossDomainView.as_view()),
+     path('jsi18n/', i18n_javascript),
+     path('admin/jsi18n/', i18n_javascript),
+     path('i18n/', include('django.conf.urls.i18n')),
+     path('robots.txt', RobotView.as_view()),
+     path('crossdomain.xml', CrossDomainView.as_view()),
 ]

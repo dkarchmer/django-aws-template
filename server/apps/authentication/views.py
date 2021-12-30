@@ -1,20 +1,19 @@
-import os
 import json
 import logging
+import os
 
-from django.shortcuts import get_object_or_404
-from django.views.generic.edit import UpdateView, FormView
-from django.views.generic import CreateView, DetailView, TemplateView, RedirectView
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
-from django.views.generic import View
-from django.urls import reverse
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import CreateView, DetailView, RedirectView, TemplateView, View
+from django.views.generic.edit import FormView, UpdateView
 
-from .models import Account
 from .forms import *
+from .models import Account
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)

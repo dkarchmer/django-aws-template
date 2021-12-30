@@ -1,12 +1,10 @@
 import logging
-from django.contrib.auth import get_user, SESSION_KEY
-from django.core.cache import caches
-from django.db.models.signals import post_save, post_delete
-from django.utils.functional import SimpleLazyObject
 
+from django.contrib.auth import SESSION_KEY, get_user, get_user_model
 from django.contrib.auth.models import AnonymousUser
-
-from django.contrib.auth import get_user_model
+from django.core.cache import caches
+from django.db.models.signals import post_delete, post_save
+from django.utils.functional import SimpleLazyObject
 
 CACHE_KEY = 'cached_user:{0}'
 

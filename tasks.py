@@ -1,4 +1,5 @@
 import os
+
 from invoke import run, task
 
 PROJECT_NAME = 'aws_template'
@@ -135,7 +136,7 @@ def run_local(ctx, action='up'):
         inv run-local -a down           # To run docker-compose down
         inv run-local -a logs-server    # To show logs for Server
         inv run-local -a makemigrations # Run Django makemigrations
-        inv run-local -a collectstatic  # Run Django collectstatic 
+        inv run-local -a collectstatic  # Run Django collectstatic
     """
     # 2 Scale up or down
     cmd = f'docker-compose -f docker-compose.yml -p {PROJECT_NAME.lower()}'
@@ -147,12 +148,18 @@ def run_local(ctx, action='up'):
         parts = action.split('-')
         assert len(parts) == 2
         cmd += ' logs {}'.format(parts[1])
+    elif 'exec' in action:
+        parts = action.split('-')
+        assert len(parts) == 2
+        cmd += ' exec {} bash'.format(parts[1])
     elif 'makemigrations' in action:
         cmd += ' run --rm web python manage.py makemigrations'
     elif 'collectstatic' in action:
         cmd += ' run --rm web python manage.py collectstatic --noinput'
     elif 'migrate' in action:
         cmd += ' run --rm web python manage.py migrate'
+    elif 'init' in action:
+        cmd += ' run --rm web ./server-init.sh'
     else:
         print('action can only be up/stop/down')
     ctx.run(cmd, pty=True)
