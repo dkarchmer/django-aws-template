@@ -1,4 +1,4 @@
-django==3.2.8
+django==3.2.10
 django-environ==0.4.5
 django-crispy-forms==1.13.0
 djangorestframework==3.13.1

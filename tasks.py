@@ -71,6 +71,7 @@ def build_statics(ctx, build=False):
     """
     cmd = 'sh build-webapp.sh'
     ctx.run(cmd, pty=True)
+    run_local(ctx, action='collectstatic')
 
 
 @task

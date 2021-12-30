@@ -102,7 +102,6 @@ a new version of a package is installed)
 
 ```bash
 inv build-statics
-inv run-local -a collectstatics
 ```
 
 ### Running Unit Test with docker compose
@@ -129,9 +128,9 @@ inv run-local -a down
 
 And important thing to understand is that we are basically creating the `base.html` template used by Django so these file needs to be moved (moved by the Gulp flow) to the Django `/templates` directory, so Django treats it like any other template that you could have created. The difference is that rather than that base template to be under version control, it is produced by the Gulp flow. This means that every time you change that base template (or the static CSS/JS), you need to run gulp again so it is copied again to the `/templates` directory. If you don't do this, and you try to run the local django server (or deploy it to AWS EB), the Django views will error out with a "Template not found" error.
 
-Note also we that we only build our own front end dependencies using Gulp. But Django comes with its own static files (for the Admin pages, for example), and you may be using popular libraries like `djangorestframework` or `django-crisp` which may include their own static files. Because of this, you still need to run the normal Django `collectstatics` command. Note that the configuration in the settings file will make `collectstatics` copy all these files to the `/statics` directory, which is also where the `gulp` flow will copy the distribution files. `/statics` is the directory we ultimately release static files from. The top level. The toplevel `inv build-statics deploy-staics` uploads all these files to an S3 bucket to either service the static files from, or as source to your CloudWatch CDN.
+Note also we that we only build our own front end dependencies using Gulp. But Django comes with its own static files (for the Admin pages, for example), and you may be using popular libraries like `djangorestframework` or `django-crisp` which may include their own static files. Because of this, you still need to run the normal Django `collectstatics` command. Note that the configuration in the settings file will make `collectstatics` copy all these files to the `/statics` directory, which is also where the `gulp` flow will copy the distribution files. `/statics` is the directory we ultimately release static files from. The top level. The toplevel `inv deploy-staics` uploads all these files to an S3 bucket to either service the static files from, or as source to your CloudWatch CDN.
 
-To collect Django statics, run:
+To collect Django statics without building the webapp, run:
 
 ```
 inv run-local -a collectstatics
@@ -203,7 +202,6 @@ After your have created the environment, you can deploy code changes with the fo
 and `eb deploy`):
 
 ```
-inv run-local -a collectstatics
 inv build-statics deploy-statics
 inv deploy
 ```
@@ -213,7 +211,7 @@ inv deploy
 This projects use pip-tools to manage requirements. Lists of required packages for each environment are located in *.in files, and complete pinned *.txt files are compiled from them with pip-compile command:
 
 ```bash
-cd server 
+cd server
 pip-compile requirements/base.in
 pip-compile requirements/development.in
 ```
