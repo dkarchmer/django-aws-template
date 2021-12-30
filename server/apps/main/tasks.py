@@ -1,7 +1,8 @@
 from __future__ import absolute_import
-import logging
-from django.core.mail import mail_admins
 
+import logging
+
+from django.core.mail import mail_admins
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)

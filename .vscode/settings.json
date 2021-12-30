@@ -1,0 +1,20 @@
+{
+    "python.pythonPath": "~/.virtualenv/django-aws-template/bin/python",
+    "python.linting.pylintArgs": [
+        "--load-plugins",
+        "pylint_django"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestArgs": [
+        "--exitfirst",
+        "--verbose",
+        "--rootdir", "server/",
+        "server/apps"
+    ],
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+}

@@ -29,7 +29,7 @@ and djangorestframework for a rest API.
 $ python3 -m venv .virtualenv/my_proj
 $ . .virtualenv/my_proj/bin/activate
 $ pip install django
-$ django-admin.py startproject --template=https://github.com/dkarchmer/django-aws-template/archive/master.zip --extension=py,md,html,env,json,config my_proj
+$ python -m django startproject --template=https://github.com/dkarchmer/django-aws-template/archive/master.zip --extension=py,md,html,env,json,config my_proj
 ```
 
 The do the following manual work:

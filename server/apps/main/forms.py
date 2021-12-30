@@ -1,9 +1,7 @@
-from django import forms as forms
+from captcha.fields import ReCaptchaField
 
 from django import forms as forms
 from django.forms import ModelForm
-
-from captcha.fields import ReCaptchaField
 
 from .models import ContactMessage
 

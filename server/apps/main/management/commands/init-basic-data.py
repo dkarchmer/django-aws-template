@@ -1,7 +1,7 @@
 from django.conf import settings
-from django.core.management.base import BaseCommand
-from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.sites.models import Site
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.management.base import BaseCommand
 
 from allauth.account.models import EmailAddress
 from allauth.socialaccount.models import SocialApp

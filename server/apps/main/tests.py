@@ -1,12 +1,13 @@
 #import unittest
-from django.test import TestCase, Client
-from django.core import mail
 import json
 
 from django.contrib.auth import get_user_model
-from rest_framework.test import APIRequestFactory, APIClient
-from rest_framework.reverse import reverse
+from django.core import mail
+from django.test import Client, TestCase
+
 from rest_framework import status
+from rest_framework.reverse import reverse
+from rest_framework.test import APIClient, APIRequestFactory
 
 from .models import *
 
@@ -35,17 +36,17 @@ class MainTestCase(TestCase):
 
     def testPages(self):
         response = self.client.get('/')
-        self.failUnlessEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         response = self.client.get('/api/v1/')
-        self.failUnlessEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         response = self.client.get('/robots.txt')
-        self.failUnlessEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         response = self.client.login(email='user1@foo.com', password='pass')
         response = self.client.get('/', {})
-        self.failUnlessEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         response = self.client.get('/api/v1/')
-        self.failUnlessEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.client.logout()
 
     def testPostContactMessage(self):

@@ -1,21 +1,20 @@
 
 import logging
-from django.template import RequestContext
-from django.http import HttpResponseRedirect
-from django.views.generic import DetailView, TemplateView, CreateView
-from django.urls import reverse
-from django.contrib import admin
-from django.conf import settings
-from django.views.generic import View
-from django.contrib import messages
-from django.views.decorators.csrf import ensure_csrf_cookie
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.utils.translation import ugettext_lazy as _
-from django.utils.safestring import mark_safe
 
-from .models import *
+from django.conf import settings
+from django.contrib import admin, messages
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.template import RequestContext
+from django.urls import reverse
+from django.utils.decorators import method_decorator
+from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy as _
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.generic import CreateView, DetailView, TemplateView, View
+
 from .forms import *
+from .models import *
 from .tasks import send_contact_me_notification
 
 AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')

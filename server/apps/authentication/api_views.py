@@ -1,25 +1,26 @@
 import json
 import logging
 
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.conf import settings
 
-from rest_framework.views import APIView
-from rest_framework import views
-from rest_framework import permissions, viewsets
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.parsers import JSONParser
-from rest_framework.renderers import JSONRenderer
+from allauth.socialaccount.helpers import complete_social_login
+from allauth.socialaccount.models import SocialApp, SocialLogin, SocialToken
+from allauth.socialaccount.providers.facebook.views import fb_complete_login
+from rest_framework import permissions, status, views, viewsets
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import action
+from rest_framework.decorators import action, permission_classes
+from rest_framework.parsers import JSONParser
 from rest_framework.permissions import AllowAny
-from rest_framework.decorators import permission_classes
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from apps.utils.permissions import *
+
 from .models import Account
 from .permissions import IsAccountOwner
 from .serializers import *
@@ -230,14 +231,11 @@ class APIUserInfoViewSet(APIView):
 
         return Response(data)
 
-from rest_framework.authentication import SessionAuthentication
-from allauth.socialaccount.models import SocialLogin, SocialToken, SocialApp
-from allauth.socialaccount.providers.facebook.views import fb_complete_login
-from allauth.socialaccount.helpers import complete_social_login
 
 class EverybodyCanAuthentication(SessionAuthentication):
     def authenticate(self, request):
         return None
+
 
 # Add a user to the system based on facebook token
 class FacebookLoginOrSignup(APIView):
